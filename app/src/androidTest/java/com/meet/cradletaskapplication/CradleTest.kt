@@ -74,4 +74,73 @@ class CradleTest {
         Assert.assertEquals(result2, "System cannot compare value other than number")
 
     }
+
+
+    @Test
+    fun testFootballTaskSuccess() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val mTask = Task()
+
+        val result = mTask.performTask(context, "football.dat", 5, 6, 0)
+        //then
+        Assert.assertEquals(result, "Aston_Villa")
+
+    }
+
+
+    @Test
+    fun testFootballTaskFileNotFound() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val mTask = Task()
+
+        val result = mTask.performTask(context, "footbll.dat", 5, 6, 0)
+        //then
+        Assert.assertEquals(result, "Data or File not found")
+
+    }
+
+
+    @Test
+    fun testFootballTaskNegativeIndex() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val mTask = Task()
+
+        val result = mTask.performTask(context, "football.dat", -5, 6, 0)
+        val result2 = mTask.performTask(context, "football.dat", 5, -6, 0)
+        val result3 = mTask.performTask(context, "football.dat", 5, 6, -1)
+        //then
+        Assert.assertEquals(result, "Please provide positive index value")
+        Assert.assertEquals(result2, "Please provide positive index value")
+        Assert.assertEquals(result3, "Please provide positive index value")
+
+    }
+
+
+    @Test
+    fun testFootballTaskIndexOutOfRange() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val mTask = Task()
+
+        val result = mTask.performTask(context, "football.dat", 25, 6, 0)
+        val result2 = mTask.performTask(context, "football.dat", 5, 26, 0)
+        val result3 = mTask.performTask(context, "football.dat", 5, 6, 19)
+        //then
+        Assert.assertEquals(result, "Column not found to calculate difference")
+        Assert.assertEquals(result2, "Column not found to calculate difference")
+        Assert.assertEquals(result3, "Column not found for return value index")
+
+    }
+
+    @Test
+    fun testFootballTaskNonDigitColumnValue() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val mTask = Task()
+
+        val result = mTask.performTask(context, "football.dat", 0, 6, 0)
+        val result2 = mTask.performTask(context, "football.dat", 5, 0, 0)
+        //then
+        Assert.assertEquals(result, "System cannot compare value other than number")
+        Assert.assertEquals(result2, "System cannot compare value other than number")
+
+    }
 }

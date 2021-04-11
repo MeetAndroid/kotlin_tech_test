@@ -34,6 +34,14 @@ class MainActivity : AppCompatActivity() {
 
         buttonFootball = findViewById(R.id.btnReadFootball)
         buttonFootball.setOnClickListener {
+            textView.text = String.format(
+                "Team Name:  ${
+                    Task().performTask(
+                        this, "football.dat",
+                        5, 6, 0
+                    )
+                }"
+            )
         }
     }
 

@@ -28,7 +28,17 @@ class Task {
         intArrayOf(80, 83),
         intArrayOf(83)
     )
-
+    private val footballIndices = arrayOf(
+//        intArrayOf(0, 7),
+        intArrayOf(7, 23),
+        intArrayOf(23, 28),
+        intArrayOf(28, 33),
+        intArrayOf(33, 37),
+        intArrayOf(37, 42),
+        intArrayOf(42, 47),
+        intArrayOf(49, 55),
+        intArrayOf(55)
+    )
 
     private fun readFile(context: Context, file: String?): List<List<String>> {
         val document: MutableList<List<String>> = ArrayList()
@@ -40,9 +50,16 @@ class Task {
                 lines.forEach { line ->
                     if (line != "") {
                         line.trim()
-
-                        if (line.substring(0, 4).trim() != "mo")
-                            stringList.addAll(weatherDataValuesFromLine(line))
+                        when (file) {
+                            "weather.dat" -> {
+                                if (line.substring(0, 4).trim() != "mo")
+                                    stringList.addAll(weatherDataValuesFromLine(line))
+                            }
+                            "football.dat" -> {
+                                if (!line.trim().startsWith("-"))
+                                    stringList.addAll(footballDataValuesFromLine(line))
+                            }
+                        }
 
                     }
                     document.add(stringList)
@@ -69,6 +86,18 @@ class Task {
         return stringList
     }
 
+    private fun footballDataValuesFromLine(line: String): List<String> {
+
+        val stringList: MutableList<String> = ArrayList()
+
+        for (i in footballIndices.indices) {
+            if (footballIndices[i].size == 2)
+                stringList.add(line.substring(footballIndices[i][0], footballIndices[i][1]))
+            else
+                stringList.add(line.substring(footballIndices[i][0]).trim())
+        }
+        return stringList
+    }
     private fun smallestPointDifference(
         document: List<List<String>>, index1: Int,
         index2: Int, indexReturn: Int
