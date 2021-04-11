@@ -21,6 +21,15 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById(R.id.textView)
         buttonWeather = findViewById(R.id.btnReadWeather)
         buttonWeather.setOnClickListener {
+            textView.text =
+                String.format(
+                    "Day Value:  ${
+                        Task().performTask(
+                            this, "weather.dat",
+                            1, 2, 0
+                        )
+                    }"
+                )
         }
 
         buttonFootball = findViewById(R.id.btnReadFootball)
